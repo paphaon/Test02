@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Product Detail API
+  version: 1.0.0
+  description: API for retrieving product details
+
+servers:
+  - url: https://dev-sme.sepplatform.com/api
+
+paths:
+  /product/get:
+    get:
+      summary: Get Product Details
+      parameters:
+        - in: header
+          name: access_token
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: product_sku
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful product detail retrieval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '401':
+          description: Unauthorized - Invalid access token
+        '404':
+          description: Product not found
+
+components:
+  schemas:
+    ProductDetailResponse:
+      type: object
+      properties:
+        productInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              sku:
+                type: string
+              prd_name:
+                type: string
+              initial_price:
+                type: string
+              productPrice:
+                type: string
+        status:
+          type: string
